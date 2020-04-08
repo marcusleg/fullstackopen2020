@@ -27,7 +27,8 @@ const App = (props) => {
       <button onClick={randomAnecdote}>random anecdote</button>
 
       <h1>Anecdote with most votes</h1>
-      {props.anecdotes[topAnecdote]}
+      {props.anecdotes[topAnecdote]}<br />
+      has {points[topAnecdote]} votes
     </div>
   )
 }
