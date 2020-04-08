@@ -3,6 +3,15 @@ import ReactDOM from 'react-dom'
 
 const DisplayStatistics = ({good, neutral, bad}) => {
   const total = good + neutral + bad
+
+  if (total === 0) {
+    return (
+      <div>
+        No feedback given.
+      </div>
+    )
+  }
+
   const average = (good - bad) / total
   const positive = good / total
 
