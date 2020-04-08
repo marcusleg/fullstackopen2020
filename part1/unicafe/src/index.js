@@ -1,13 +1,22 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const DisplayStatistics = ({good, neutral, bad}) => (
-  <div>
-    good {good}<br />
-    neutral {neutral}<br />
-    bad {bad}<br />
-  </div>
-)
+const DisplayStatistics = ({good, neutral, bad}) => {
+  const total = good + neutral + bad
+  const average = (good - bad) / total
+  const positive = good / total
+
+  return (
+    <div>
+      good {good}<br />
+      neutral {neutral}<br />
+      bad {bad}<br />
+      total {total}<br />
+      average {average}<br />
+      positive {positive}<br />
+    </div>
+  )
+}
 
 const Button = ({handleClick, text}) => (
   <button onClick={handleClick}>
