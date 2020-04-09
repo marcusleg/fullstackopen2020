@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Contacts from './components/Contacts'
+import Filter from './components/Filter'
 
 const App = () => {
   const [ filter, setFilter] = useState('')
@@ -12,7 +13,6 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
 
-  const handleFilterChange = (event) => setFilter(event.target.value)
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const addContact = (event) => {
@@ -40,7 +40,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      search contacts <input value={filter} onChange={handleFilterChange} /> (leave empty to show all contacts)
+      <Filter filter={filter} setFilter={setFilter} />
       <h2>Add new contact</h2>
       <form onSubmit={addContact}>
         <div>
