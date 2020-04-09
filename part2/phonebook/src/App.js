@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Contacts from './components/Contacts'
 
 const App = () => {
+  const [ filter, setFilter] = useState('')
   const [ contacts, setContacts] = useState([
     {
       name: 'Arto Hellas',
@@ -11,6 +12,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
 
+  const handleFilterChange = (event) => setFilter(event.target.value)
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const addContact = (event) => {
@@ -33,9 +35,13 @@ const App = () => {
     setNewNumber('')
   }
 
+  const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
+
   return (
     <div>
       <h2>Phonebook</h2>
+      search contacts <input value={filter} onChange={handleFilterChange} /> (leave empty to show all contacts)
+      <h2>Add new contact</h2>
       <form onSubmit={addContact}>
         <div>
           name: <input value={newName} onChange={handleNameChange} /><br />
@@ -46,7 +52,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Contacts contacts={contacts} />
+      <Contacts contacts={filteredContacts} />
     </div>
   )
 }
