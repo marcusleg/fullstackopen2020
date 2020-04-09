@@ -1,0 +1,10 @@
+note over browser:
+browser submits the form to the server
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+server-->browser: HTTP 201 (created)
+
+note over browser:
+browser modifies the DOM locally to add the newly created node
+end note
