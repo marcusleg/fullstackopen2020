@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Contacts from './components/Contacts'
 
 const App = () => {
-  const [ persons, setPersons] = useState([
+  const [ contacts, setContacts] = useState([
     { name: 'Arto Hellas' }
   ])
   const [ newName, setNewName ] = useState('')
@@ -11,7 +11,7 @@ const App = () => {
   const addContact = (event) => {
     event.preventDefault()
     const newContact = {name: newName}
-    setPersons(persons.concat(newContact))
+    setContacts(contacts.concat(newContact))
     setNewName('')
   }
 
@@ -27,7 +27,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Contacts persons={persons} />
+      <Contacts contacts={contacts} />
     </div>
   )
 }
