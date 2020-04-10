@@ -1,7 +1,7 @@
 import React from 'react'
 import Country from './Country'
 
-const FilteredCountries = ({countries, filter}) => {
+const FilteredCountries = ({countries, filter, setSelected}) => {
   const filteredCountries = countries.filter(country => country.name.toLowerCase().includes(filter.toLowerCase()))
 
   if (filter === "") return <></>
@@ -11,11 +11,11 @@ const FilteredCountries = ({countries, filter}) => {
 
   console.log(filteredCountries)
   return (
-    <ul>
+    <>
       {filteredCountries.map(country =>
-        <li key={country.alpha2code}>{country.name}</li>
+        <p>{country.name} <button type="button" onClick={() => setSelected(country.name)}>show</button></p>
       )}
-    </ul>
+    </>
   )
 }
 
