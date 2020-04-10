@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import AddContactForm from './components/AddContactForm'
 import Contacts from './components/Contacts'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import phonebookService from './services/phonebook'
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
   const [ contacts, setContacts] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [ notificationMessage, setNotificationMessage ] = useState(null)
 
   useEffect(() => {
     phonebookService
@@ -23,9 +25,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <Filter filter={filter} setFilter={setFilter} />
       <h2>Add new contact</h2>
-      <AddContactForm contacts={contacts} setContacts={setContacts} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
+      <AddContactForm contacts={contacts} setContacts={setContacts} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} setNotificationMessage={setNotificationMessage} />
       <h2>Numbers</h2>
       <Contacts filteredContacts={filteredContacts} contacts={contacts} setContacts={setContacts} />
     </div>

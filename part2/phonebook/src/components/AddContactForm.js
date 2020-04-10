@@ -1,7 +1,7 @@
 import React from 'react'
 import phonebookService from '../services/phonebook'
 
-const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, setNewNumber}) => {
+const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, setNewNumber, setNotificationMessage}) => {
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const addContact = (event) => {
@@ -27,6 +27,8 @@ const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, 
       .catch(error => alert(`unable to add contact ${newContact.name} to the phonebook`))
     setNewName('')
     setNewNumber('')
+    setNotificationMessage((`${newContact.name} was added to the phonebook`))
+    setTimeout(() => setNotificationMessage(null), 5000)
   }
 
   const updateContact = (updatedContact) => {
@@ -35,6 +37,8 @@ const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, 
       setContacts(contacts.map(contact => contact.id !== id ? contact : response))
       setNewName('')
       setNewNumber('')
+      setNotificationMessage((`${updatedContact.name}'s phone number was updated`))
+      setTimeout(() => setNotificationMessage(null), 5000)
     })
   }
 
