@@ -5,8 +5,16 @@ const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, 
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const addContact = (event) => {
+    event.preventDefault()
+    const newContact = {
+      name: newName,
+      number: newNumber
+    }
+
     if (contacts.map(contact => contact.name).indexOf(newName) >= 0) {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newContact.name} is already in the phonebook. Replace the old number with the new one?`)) {
+        updateContact(newContact)
+      }
       return
     }
     if (newName.length === 0) {
@@ -14,16 +22,20 @@ const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, 
       return
     }
 
-    event.preventDefault()
-    const newContact = {
-      name: newName,
-      number: newNumber
-    }
     phonebookService.create(newContact)
       .then(response => setContacts(contacts.concat(response)))
       .catch(error => alert(`unable to add contact ${newContact.name} to the phonebook`))
     setNewName('')
     setNewNumber('')
+  }
+
+  const updateContact = (updatedContact) => {
+    const id = contacts.find(contact => contact.name === updatedContact.name)['id']
+    phonebookService.update(id, updatedContact).then(response => {
+      setContacts(contacts.map(contact => contact.id !== id ? contact : response))
+      setNewName('')
+      setNewNumber('')
+    })
   }
 
   return (
