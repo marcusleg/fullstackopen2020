@@ -1,4 +1,5 @@
 import React from 'react'
+import phonebookService from '../services/phonebook'
 
 const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, setNewNumber}) => {
   const handleNameChange = (event) => setNewName(event.target.value)
@@ -18,7 +19,9 @@ const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, 
       name: newName,
       number: newNumber
     }
-    setContacts(contacts.concat(newContact))
+    phonebookService.create(newContact)
+      .then(response => setContacts(contacts.concat(response)))
+      .catch(error => alert(`unable to add contact ${newContact.name} to the phonebook`))
     setNewName('')
     setNewNumber('')
   }
