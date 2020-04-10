@@ -3,6 +3,7 @@ import axios from 'axios'
 import AddContactForm from './components/AddContactForm'
 import Contacts from './components/Contacts'
 import Filter from './components/Filter'
+import phonebookService from './services/phonebook'
 
 const App = () => {
   const [ filter, setFilter] = useState('')
@@ -11,10 +12,10 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/contacts')
+    phonebookService
+      .getAll()
       .then(response => {
-        setContacts(response.data)
+        setContacts(response)
       })
   }, [])
 
