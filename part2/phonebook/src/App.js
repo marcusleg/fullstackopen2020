@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import AddContactForm from './components/AddContactForm'
 import Contacts from './components/Contacts'
 import Filter from './components/Filter'
@@ -28,7 +27,7 @@ const App = () => {
       <h2>Add new contact</h2>
       <AddContactForm contacts={contacts} setContacts={setContacts} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
       <h2>Numbers</h2>
-      <Contacts contacts={filteredContacts} />
+      <Contacts filteredContacts={filteredContacts} contacts={contacts} setContacts={setContacts} />
     </div>
   )
 }
