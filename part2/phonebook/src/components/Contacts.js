@@ -1,7 +1,7 @@
 import React from 'react'
 import phonebookService from '../services/phonebook'
 
-const Contacts = ({filteredContacts, contacts, setContacts}) => {
+const Contacts = ({filteredContacts, contacts, setContacts, setErrorMessage}) => {
   const deleteContact = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
       phonebookService.remove(id)
@@ -9,9 +9,10 @@ const Contacts = ({filteredContacts, contacts, setContacts}) => {
           filteredContacts = filteredContacts.filter(contact => contact.id !== id)
           setContacts(contacts.filter(contact => contact.id !== id))
         })
-        .catch(error =>
-          alert(`unable to delete contact with id ${id}`)
-        )
+        .catch(error => {
+          setErrorMessage(`unable to delete contact with id ${id}`)
+          setTimeout(() => setErrorMessage(null), 5000)
+        })
     }
   }
 

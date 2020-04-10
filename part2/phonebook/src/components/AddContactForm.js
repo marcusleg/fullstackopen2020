@@ -1,7 +1,7 @@
 import React from 'react'
 import phonebookService from '../services/phonebook'
 
-const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, setNewNumber, setNotificationMessage}) => {
+const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, setNewNumber, setNotificationMessage, setErrorMessage}) => {
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const addContact = (event) => {
@@ -18,13 +18,17 @@ const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, 
       return
     }
     if (newName.length === 0) {
-      alert(`please enter a name`)
+      setErrorMessage('please enter a name')
+      setTimeout(() => setErrorMessage(null), 5000)
       return
     }
 
     phonebookService.create(newContact)
       .then(response => setContacts(contacts.concat(response)))
-      .catch(error => alert(`unable to add contact ${newContact.name} to the phonebook`))
+      .catch(error => {
+        setErrorMessage(`unable to add contact ${newContact.name} to the phonebook`)
+        setTimeout(() => setErrorMessage(null), 5000)
+      })
     setNewName('')
     setNewNumber('')
     setNotificationMessage((`${newContact.name} was added to the phonebook`))
@@ -33,13 +37,18 @@ const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, 
 
   const updateContact = (updatedContact) => {
     const id = contacts.find(contact => contact.name === updatedContact.name)['id']
-    phonebookService.update(id, updatedContact).then(response => {
-      setContacts(contacts.map(contact => contact.id !== id ? contact : response))
-      setNewName('')
-      setNewNumber('')
-      setNotificationMessage((`${updatedContact.name}'s phone number was updated`))
-      setTimeout(() => setNotificationMessage(null), 5000)
-    })
+    phonebookService.update(id, updatedContact)
+      .then(response => {
+        setContacts(contacts.map(contact => contact.id !== id ? contact : response))
+        setNewName('')
+        setNewNumber('')
+        setNotificationMessage((`${updatedContact.name}'s phone number was updated`))
+        setTimeout(() => setNotificationMessage(null), 5000)
+      })
+      .catch(error => {
+        setErrorMessage(`unable to update contact ${updatedContact.name}`)
+        setTimeout(() => setErrorMessage(null), 5000)
+      })
   }
 
   return (
