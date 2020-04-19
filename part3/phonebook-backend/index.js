@@ -32,6 +32,17 @@ app.get('/api/contacts', (req, res) => {
   res.json(contacts)
 })
 
+app.get('/api/contacts/:id', (req, res) => {
+  const id = Number(req.params.id)
+  const contact = contacts.find(contact => contact.id === id)
+
+  if (contact) {
+    res.json(contact)
+  } else {
+    res.status(404).end()
+  }
+})
+
 app.get('/info', (req, res) => {
   const date = new Date()
   res.send(`<p>Phonebook has info for ${contacts.length} people<p><p>${date}</p>`)
@@ -39,7 +50,11 @@ app.get('/info', (req, res) => {
 
 // redirects for specification compatibility
 app.get('/api/persons', (req, res) => {
-  res.redirect('/api/contacts')
+  res.redirect(301, '/api/contacts')
+})
+
+app.get('/api/persons/:id', (req, res) => {
+  res.redirect(301, `/api/contacts/${req.params.id}`)
 })
 
 const PORT = 3001
