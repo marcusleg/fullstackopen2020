@@ -35,6 +35,18 @@ app.get('/api/contacts', (req, res) => {
 })
 
 app.post('/api/contacts', (req, res) => {
+  if (!req.body || !req.body.name || !req.body.number) {
+    return res.status(400).json({
+      error: 'name or number missing'
+    })
+  }
+
+  if (contacts.find(contact => contact.name === req.body.name)) {
+    return res.status(400).json({
+      error: 'name already exists in the phonebook'
+    })
+  }
+
   const id = Math.floor(Math.random() * 2147483648)
   const contact = { ...req.body, id}
   contacts = contacts.concat(contact)
