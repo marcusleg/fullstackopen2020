@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let contacts = [
   {
     "name": "Arto Hellas",
@@ -32,6 +34,13 @@ app.get('/api/contacts', (req, res) => {
   res.json(contacts)
 })
 
+app.post('/api/contacts', (req, res) => {
+  const id = Math.floor(Math.random() * 2147483648)
+  const contact = { ...req.body, id}
+  contacts = contacts.concat(contact)
+  res.json(contact)
+})
+
 app.delete('/api/contacts/:id', (req, res) => {
   const id = Number(req.params.id)
   contacts = contacts.filter(contact => contact.id !== id)
@@ -58,6 +67,14 @@ app.get('/info', (req, res) => {
 // redirects for specification compatibility
 app.get('/api/persons', (req, res) => {
   res.redirect(301, '/api/contacts')
+})
+
+app.post('/api/persons', (req, res) => {
+  res.redirect(308, '/api/contacts')
+})
+
+app.delete('/api/persons/:id', (req, res) => {
+  res.redirect(308, `/api/contacts/${req.params.id}`)
 })
 
 app.get('/api/persons/:id', (req, res) => {
