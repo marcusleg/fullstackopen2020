@@ -32,6 +32,11 @@ app.get('/api/contacts', (req, res) => {
   res.json(contacts)
 })
 
+app.get('/info', (req, res) => {
+  const date = new Date()
+  res.send(`<p>Phonebook has info for ${contacts.length} people<p><p>${date}</p>`)
+})
+
 // redirects for specification compatibility
 app.get('/api/persons', (req, res) => {
   res.redirect('/api/contacts')
