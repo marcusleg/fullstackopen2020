@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
@@ -16,35 +17,16 @@ app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-let contacts = [
-  {
-    "name": "Arto Hellas",
-    "number": "040-123456",
-    "id": 1
-  },
-  {
-    "name": "Ada Lovelace",
-    "number": "39-44-5323523",
-    "id": 2
-  },
-  {
-    "name": "Dan Abramov",
-    "number": "12-43-234345",
-    "id": 3
-  },
-  {
-    "name": "Mary Poppendieck",
-    "number": "39-23-6423122",
-    "id": 4
-  }
-]
+const Contact = require('./models/contact')
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
 
 app.get('/api/contacts', (req, res) => {
-  res.json(contacts)
+  Contact.find({}).then(result => {
+    res.json(result)
+  })
 })
 
 app.post('/api/contacts', (req, res) => {
@@ -54,34 +36,26 @@ app.post('/api/contacts', (req, res) => {
     })
   }
 
-  if (contacts.find(contact => contact.name === req.body.name)) {
-    return res.status(400).json({
-      error: 'name already exists in the phonebook'
-    })
-  }
-
-  const id = Math.floor(Math.random() * 2147483648)
-  const contact = { ...req.body, id}
-  contacts = contacts.concat(contact)
-  res.json(contact)
+  const contact = new Contact({...req.body})
+  contact.save().then(savedContact => {
+    res.json(savedContact.toJSON())
+  })
 })
 
 app.delete('/api/contacts/:id', (req, res) => {
-  const id = Number(req.params.id)
-  contacts = contacts.filter(contact => contact.id !== id)
-
-  res.status(204).end()
+  Contact.deleteOne({ _id: req.params.id}).then(result => {
+    res.status(204).end()
+  })
 })
 
 app.get('/api/contacts/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const contact = contacts.find(contact => contact.id === id)
-
-  if (contact) {
+  Contact.findById(req.params.id)
+  .then(contact => {
     res.json(contact)
-  } else {
+  })
+  .catch(error => {
     res.status(404).end()
-  }
+  })
 })
 
 app.get('/info', (req, res) => {
