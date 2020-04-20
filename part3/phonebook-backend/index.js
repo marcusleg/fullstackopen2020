@@ -69,7 +69,9 @@ app.put('/api/contacts/:id', (req, res, next) => {
 
 app.get('/info', (req, res) => {
   const date = new Date()
-  res.send(`<p>Phonebook has info for ${contacts.length} people<p><p>${date}</p>`)
+  Contact.count({}).then(count => {
+    res.send(`<p>Phonebook has info for ${count} people<p><p>${date}</p>`)
+  })
 })
 
 // redirects for specification compatibility
