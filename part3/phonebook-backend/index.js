@@ -24,15 +24,14 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/contacts', (req, res) => {
-  Contact.find({}).then(result => {
-    res.json(result)
-  })
+  Contact.find({}).then(result => res.json(result))
 })
 
 app.post('/api/contacts', (req, res, next) => {
   const contact = new Contact({...req.body})
   contact.save()
-    .then(savedContact => res.json(savedContact.toJSON()))
+    .then(savedContact => savedContact.toJSON())
+    .then(savedAndFormattedContact => res.json(savedAndFormattedContact))
     .catch(error => next(error))
 })
 
@@ -44,9 +43,7 @@ app.delete('/api/contacts/:id', (req, res, next) => {
 
 app.get('/api/contacts/:id', (req, res, next) => {
   Contact.findById(req.params.id)
-  .then(contact => {
-    res.json(contact)
-  })
+  .then(contact => res.json(contact))
   .catch(error => next(error))
 })
 
@@ -57,7 +54,8 @@ app.put('/api/contacts/:id', (req, res, next) => {
   }
 
   Contact.findByIdAndUpdate(req.params.id, contact, {new: true})
-    .then(updatedContact => res.json(updatedContact.toJSON()))
+    .then(updatedContact => updatedContact.toJSON())
+    .then(updatedAndFormattedContact => res.json(updatedAndFormattedContact))
     .catch(error => next(error))
 })
 
