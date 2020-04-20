@@ -29,17 +29,11 @@ app.get('/api/contacts', (req, res) => {
   })
 })
 
-app.post('/api/contacts', (req, res) => {
-  if (!req.body || !req.body.name || !req.body.number) {
-    return res.status(400).json({
-      error: 'name or number missing'
-    })
-  }
-
+app.post('/api/contacts', (req, res, next) => {
   const contact = new Contact({...req.body})
-  contact.save().then(savedContact => {
-    res.json(savedContact.toJSON())
-  })
+  contact.save()
+    .then(savedContact => res.json(savedContact.toJSON()))
+    .catch(error => next(error))
 })
 
 app.delete('/api/contacts/:id', (req, res, next) => {
@@ -97,6 +91,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
