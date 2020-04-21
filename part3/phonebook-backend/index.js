@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 
-morgan.token('body', function (req, res) {
+morgan.token('body', function (req) {
   if (req.method === 'POST') {
     return JSON.stringify(req.body)
   }
@@ -28,7 +28,7 @@ app.get('/api/contacts', (req, res) => {
 })
 
 app.post('/api/contacts', (req, res, next) => {
-  const contact = new Contact({...req.body})
+  const contact = new Contact({ ...req.body })
   contact.save()
     .then(savedContact => savedContact.toJSON())
     .then(savedAndFormattedContact => res.json(savedAndFormattedContact))
@@ -37,14 +37,14 @@ app.post('/api/contacts', (req, res, next) => {
 
 app.delete('/api/contacts/:id', (req, res, next) => {
   Contact.findByIdAndRemove(req.params.id)
-    .then(result => res.status(204).end())
+    .then(res => res.status(204).end())
     .catch(error => next(error))
 })
 
 app.get('/api/contacts/:id', (req, res, next) => {
   Contact.findById(req.params.id)
-  .then(contact => res.json(contact))
-  .catch(error => next(error))
+    .then(contact => res.json(contact))
+    .catch(error => next(error))
 })
 
 app.put('/api/contacts/:id', (req, res, next) => {
@@ -53,7 +53,7 @@ app.put('/api/contacts/:id', (req, res, next) => {
     number: req.body.number
   }
 
-  Contact.findByIdAndUpdate(req.params.id, contact, {new: true})
+  Contact.findByIdAndUpdate(req.params.id, contact, { new: true })
     .then(updatedContact => updatedContact.toJSON())
     .then(updatedAndFormattedContact => res.json(updatedAndFormattedContact))
     .catch(error => next(error))
