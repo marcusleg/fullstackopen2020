@@ -17,16 +17,11 @@ const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, 
       }
       return
     }
-    if (newName.length === 0) {
-      setErrorMessage('please enter a name')
-      setTimeout(() => setErrorMessage(null), 5000)
-      return
-    }
 
     phonebookService.create(newContact)
       .then(response => setContacts(contacts.concat(response)))
       .catch(error => {
-        setErrorMessage(`unable to add contact ${newContact.name} to the phonebook`)
+        setErrorMessage(error.response.data.error)
         setTimeout(() => setErrorMessage(null), 5000)
       })
     setNewName('')
@@ -46,7 +41,7 @@ const AddContactForm = ({contacts, setContacts, newName, setNewName, newNumber, 
         setTimeout(() => setNotificationMessage(null), 5000)
       })
       .catch(error => {
-        setErrorMessage(`unable to update contact ${updatedContact.name}`)
+        setErrorMessage(error.response.data.error)
         setTimeout(() => setErrorMessage(null), 5000)
       })
   }
