@@ -1,5 +1,6 @@
 const http = require('http')
 const config = require('./utils/config')
+const logger = require('./utils/logger')
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -30,5 +31,5 @@ app.post('/api/blogs', (request, response) => {
 })
 
 app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`)
+  logger.info(`Server running on port ${config.PORT}`)
 })
