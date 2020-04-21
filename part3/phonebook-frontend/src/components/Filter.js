@@ -5,7 +5,6 @@ const Filter = ({filter, setFilter}) => {
   return (
     <>
       search contacts <input value={filter} onChange={handleFilterChange} /> (leave empty to show all contacts)<br />
-      debug: {filter}
     </>
   )
 }
