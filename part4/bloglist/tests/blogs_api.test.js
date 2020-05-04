@@ -70,6 +70,32 @@ test('POST without likes property defaults to 0 likes', async () => {
   expect(response.body.likes).toEqual(0)
 })
 
+test('POST without title property is a bad request', async () => {
+  const newBlog = {
+    author: 'Bob Ross',
+    url: 'https://br.example.com',
+    likes: 42
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
+test('POST without url property is a bad request', async () => {
+  const newBlog = {
+    title: 'The Joy of Painting',
+    author: 'Bob Ross',
+    likes: 42
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
