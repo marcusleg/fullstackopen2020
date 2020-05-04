@@ -10,6 +10,7 @@ List of node packages used throughout the exercises.
 * [dotenv](https://github.com/motdotla/dotenv) for loading environment variables from `.env` file
 * [ESlint](https://eslint.org/) linter
 * [Express](https://expressjs.com) web framework
+* [Express Async Errors](https://github.com/davidbanham/express-async-errors) for eliminating try-catch blocks
 * [Jest](https://jestjs.io/) unit testing
 * [mongoose](https://mongoosejs.com/) for accessing a MongoDB
 * [mongoose-unique-validator](https://github.com/blakehaswell/mongoose-unique-validator) pre-save validation for unique fields
