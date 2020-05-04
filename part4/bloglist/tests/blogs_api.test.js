@@ -33,6 +33,27 @@ test('verify the unique identifier property of blog posts is called id', async (
   response.body.forEach(blog => expect(blog.id).toBeDefined())
 })
 
+test('making a POST request creates a blog post', async () => {
+  const newBlog = {
+    title: 'How to make great examples',
+    author: 'John Doe',
+    url: 'http://example.org',
+    likes: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
+
+  const titles = response.body.map(blog => blog.title)
+  expect(titles).toContain(newBlog.title)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
