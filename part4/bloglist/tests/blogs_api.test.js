@@ -54,6 +54,22 @@ test('making a POST request creates a blog post', async () => {
   expect(titles).toContain(newBlog.title)
 })
 
+test('POST without likes property defaults to 0 likes', async () => {
+  const newBlog = {
+    title: 'How to make great examples',
+    author: 'John Doe',
+    url: 'http://example.org',
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  expect(response.body.likes).toEqual(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
