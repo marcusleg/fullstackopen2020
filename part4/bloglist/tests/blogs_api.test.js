@@ -96,6 +96,18 @@ test('POST without url property is a bad request', async () => {
     .expect(400)
 })
 
+test('deleting a POST', async () => {
+  const firstBlog = await Blog.find({title: 'React patterns'})
+  const idToDelete = firstBlog[0]['_id']
+
+  await api
+    .delete(`/api/blogs/${idToDelete}`)
+    .expect(204)
+
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(helper.initialBlogs.length - 1)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
