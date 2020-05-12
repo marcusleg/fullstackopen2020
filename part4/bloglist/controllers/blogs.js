@@ -23,4 +23,21 @@ blogsRouter.delete('/:id', async (request, response) => {
   response.status(204).end()
 })
 
+blogsRouter.put('/:id', async (request, response) => {
+  const blog = {
+    author: request.body.author,
+    title: request.body.title,
+  }
+
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    response.json(updatedBlog.toJSON())
+  } catch (exception) {
+    if (exception.name === 'ValidationError') {
+      response.status(400).json({ error: 'Validation Error' })
+    }
+  }
+
+})
+
 module.exports = blogsRouter

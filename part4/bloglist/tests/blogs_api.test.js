@@ -96,7 +96,7 @@ test('POST without url property is a bad request', async () => {
     .expect(400)
 })
 
-test('deleting a POST', async () => {
+test('deleting a blog', async () => {
   const firstBlog = await Blog.find({title: 'React patterns'})
   const idToDelete = firstBlog[0]['_id']
 
@@ -106,6 +106,21 @@ test('deleting a POST', async () => {
 
   const response = await api.get('/api/blogs')
   expect(response.body).toHaveLength(helper.initialBlogs.length - 1)
+})
+
+test('updating a blog', async () => {
+  const firstBlog = await Blog.find({title: 'React patterns'})
+  const idToDelete = firstBlog[0]['_id']
+  const updatedBlog = {...firstBlog, title: 'React anti patterns'}
+
+  await api
+    .put(`/api/blogs/${idToDelete}`)
+    .send(updatedBlog)
+    .expect(200)
+
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(helper.initialBlogs.length)
+  expect(response.body.map(blog => blog.title)).toContain(updatedBlog.title)
 })
 
 afterAll(() => {
