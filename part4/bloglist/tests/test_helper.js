@@ -1,5 +1,11 @@
+
+const supertest = require('supertest')
+const app = require('../app')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+
+const api = supertest(app)
+
 
 const initialBlogs = [
   { title: "React patterns", author: "Michael Chan", url: "https://reactpatterns.com/", likes: 7, __v: 0 },
@@ -23,8 +29,18 @@ const usersInDb = async () => {
   return users.map(u => u.toJSON())
 }
 
+const getValidToken = async () => {
+  const response = await api
+    .post('/api/login')
+    .send(initialUsers[0])
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+  return response.body
+}
+
 module.exports = {
   initialBlogs,
   initialUsers,
+  getValidToken,
   usersInDb,
 }
