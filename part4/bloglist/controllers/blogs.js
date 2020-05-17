@@ -24,21 +24,16 @@ blogsRouter.post('/', async (request, response) => {
   }
   const user = await User.findById(decodedToken.id)
 
-  try {
-    const blog = new Blog({
-      ...request.body,
-      user: user._id,
-    })
-    const savedBlog = await blog.save()
-    user.blogs = user.blogs.concat(savedBlog._id)
-    await user.save()
+  const blog = new Blog({
+    ...request.body,
+    user: user._id,
+  })
+  const savedBlog = await blog.save()
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
 
-    response.status(201).json(savedBlog.toJSON())
-  } catch (exception) {
-    if (exception.name === 'ValidationError') {
-      response.status(400).json({ error: 'Validation Error' })
-    }
-  }
+  response.status(201).json(savedBlog.toJSON())
+
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
@@ -52,14 +47,8 @@ blogsRouter.put('/:id', async (request, response) => {
     title: request.body.title,
   }
 
-  try {
-    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-    response.json(updatedBlog.toJSON())
-  } catch (exception) {
-    if (exception.name === 'ValidationError') {
-      response.status(400).json({ error: 'Validation Error' })
-    }
-  }
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+  response.json(updatedBlog.toJSON())
 
 })
 

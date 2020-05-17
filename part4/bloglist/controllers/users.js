@@ -18,15 +18,8 @@ usersRouter.post('/', async (request, response) => {
     passwordHash,
   })
 
-  try {
-    const savedUser = await user.save()
-    response.json(savedUser)
-  } catch (exception) {
-    if (exception.name === 'ValidationError') {
-      return response.status(400).json({ error: 'Validation Error' })
-    }
-    console.log(exception.name)
-  }
+  const savedUser = await user.save()
+  response.json(savedUser)
 })
 
 usersRouter.get('/', async (request, response) => {
