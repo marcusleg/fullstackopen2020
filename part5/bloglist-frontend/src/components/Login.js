@@ -2,7 +2,7 @@ import React from 'react'
 import loginService from '../services/login'
 
 
-const LoginForm = ({user, setUser, username, setUsername, password, setPassword}) => {
+const Login = ({ user, setUser, username, setUsername, password, setPassword }) => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -10,12 +10,27 @@ const LoginForm = ({user, setUser, username, setUsername, password, setPassword}
         username, password,
       })
 
+      window.localStorage.setItem('loggedUser', JSON.stringify(user))
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
       console.log('Wrong credentials')
     }
+  }
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedUser')
+    setUser(null)
+  }
+
+  if (user !== null) {
+    return (
+      <p>
+        {user.username} logged in
+        <button onClick={handleLogout}>logout</button>
+      </p>
+    )
   }
 
   return (
@@ -43,4 +58,4 @@ const LoginForm = ({user, setUser, username, setUsername, password, setPassword}
   )
 }
 
-export default LoginForm
+export default Login
