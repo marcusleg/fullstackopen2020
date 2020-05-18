@@ -1,9 +1,22 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateBlog }) => {
   const [expanded, setExpanded] = useState(false)
+  const [likes, setLikes] = useState(blog.likes)
 
   const toggleExpanded = () => setExpanded(!expanded)
+
+  const handleLike = async () => {
+    const updatedBlog = await updateBlog(blog.id, {
+      user: blog.user.id,
+      likes: likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url,
+    })
+
+    setLikes(updatedBlog.likes)
+  }
 
   const blogStyle = {
     paddingTop: 10,
@@ -21,7 +34,7 @@ const Blog = ({ blog }) => {
           <>
             <button onClick={toggleExpanded}>hide</button><br />
             <a href={blog.url}>{blog.url}</a><br />
-            likes {blog.likes}<br />
+            likes {likes}<button onClick={handleLike}>like</button><br />
             user {blog.user.name}
           </>
           :
