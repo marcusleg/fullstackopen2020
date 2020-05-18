@@ -12,7 +12,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 
 morgan.token('body', function (req) {
-  if (req.method === 'POST') {
+  if (req.method === 'POST' || req.method === 'PUT') {
     return JSON.stringify(req.body)
   }
   return ''
