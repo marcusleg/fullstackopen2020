@@ -3,7 +3,7 @@ import blogsService from '../services/blogs'
 import loginService from '../services/login'
 
 
-const Login = ({ user, setUser, username, setUsername, password, setPassword }) => {
+const Login = ({ user, setUser, username, setUsername, password, setPassword, setErrorMessage }) => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -17,7 +17,8 @@ const Login = ({ user, setUser, username, setUsername, password, setPassword }) 
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log('Wrong credentials')
+      setErrorMessage('wrong username or password')
+      setTimeout(() => setErrorMessage(null), 5000)
     }
   }
 

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import AddBlogForm from './components/AddBlogForm'
 import Blog from './components/Blog'
+import Error from './components/Error'
 import Login from './components/Login'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 
 const App = () => {
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -28,16 +32,20 @@ const App = () => {
   if (user === null) {
     return (
       <>
+        <Notification message={notificationMessage} />
+        <Error message={errorMessage} />
         <h2>Log in</h2>
-        <Login user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword} />
+        <Login user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} />
       </>
     )
   }
 
   return (
     <div>
-      <Login user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword} />
-      <AddBlogForm blogs={blogs} setBlogs={setBlogs} />
+      <Notification message={notificationMessage} />
+      <Error message={errorMessage} />
+      <Login user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} />
+      <AddBlogForm blogs={blogs} setBlogs={setBlogs} setNotificationMessage={setNotificationMessage} setErrorMessage={setErrorMessage} />
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
