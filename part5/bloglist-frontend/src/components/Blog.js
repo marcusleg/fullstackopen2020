@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, blogs, setBlogs, updateBlog, removeBlog }) => {
   const [expanded, setExpanded] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -16,6 +16,14 @@ const Blog = ({ blog, updateBlog }) => {
     })
 
     setLikes(updatedBlog.likes)
+  }
+
+  const handleRemove = async () => {
+    if (!window.confirm(`Do you really want to remove ${blog.title} by ${blog.author}`)) {
+      return
+    }
+    setBlogs(blogs.filter(value => value.id !== blog.id))
+    await removeBlog(blog.id)
   }
 
   const blogStyle = {
@@ -35,7 +43,8 @@ const Blog = ({ blog, updateBlog }) => {
             <button onClick={toggleExpanded}>hide</button><br />
             <a href={blog.url}>{blog.url}</a><br />
             likes {likes}<button onClick={handleLike}>like</button><br />
-            user {blog.user.name}
+            user {blog.user.name}<br />
+            <button onClick={handleRemove}>remove</button>
           </>
           :
           <button onClick={toggleExpanded}>view</button>
