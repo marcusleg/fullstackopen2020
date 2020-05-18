@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import AddBlogForm from './components/AddBlogForm'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import blogService from './services/blogs'
@@ -20,6 +21,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -35,6 +37,7 @@ const App = () => {
   return (
     <div>
       <Login user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword} />
+      <AddBlogForm blogs={blogs} setBlogs={setBlogs} />
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />

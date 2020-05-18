@@ -1,4 +1,5 @@
 import React from 'react'
+import blogsService from '../services/blogs'
 import loginService from '../services/login'
 
 
@@ -11,6 +12,7 @@ const Login = ({ user, setUser, username, setUsername, password, setPassword }) 
       })
 
       window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      blogsService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -21,6 +23,7 @@ const Login = ({ user, setUser, username, setUsername, password, setPassword }) 
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedUser')
+    blogsService.setToken(null)
     setUser(null)
   }
 
