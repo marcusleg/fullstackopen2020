@@ -4,6 +4,7 @@ import Blog from './components/Blog'
 import Error from './components/Error'
 import Login from './components/Login'
 import Notification from './components/Notification'
+import Toggable from './components/Toggable'
 import blogService from './services/blogs'
 
 const App = () => {
@@ -13,6 +14,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+
+  const addBlogFormRef = React.createRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -45,7 +48,9 @@ const App = () => {
       <Notification message={notificationMessage} />
       <Error message={errorMessage} />
       <Login user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} />
-      <AddBlogForm blogs={blogs} setBlogs={setBlogs} setNotificationMessage={setNotificationMessage} setErrorMessage={setErrorMessage} />
+      <Toggable buttonLabel="new blog" ref={addBlogFormRef}>
+        <AddBlogForm blogs={blogs} setBlogs={setBlogs} setNotificationMessage={setNotificationMessage} setErrorMessage={setErrorMessage} addBlogFormRef={addBlogFormRef} />
+      </Toggable>
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />

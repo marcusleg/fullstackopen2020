@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const AddBlogForm = ({ blogs, setBlogs, setNotificationMessage, setErrorMessage }) => {
+const AddBlogForm = ({ blogs, setBlogs, setNotificationMessage, setErrorMessage, addBlogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -10,6 +10,7 @@ const AddBlogForm = ({ blogs, setBlogs, setNotificationMessage, setErrorMessage 
     event.preventDefault()
     blogService.create(title, author, url)
       .then(returnedBlog => {
+        addBlogFormRef.current.toggleVisibility()
         setBlogs(blogs.concat(returnedBlog))
         setNotificationMessage(`New Blog added: ${returnedBlog.title} by ${returnedBlog.author}`)
         setTimeout(() => setNotificationMessage(null), 5000)
