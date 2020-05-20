@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const AddBlogForm = ({ blogs, setBlogs, setNotificationMessage, setErrorMessage, addBlogFormRef }) => {
+const AddBlogForm = ({ blogs, setBlogs, createBlog, setNotificationMessage, setErrorMessage, addBlogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    blogService.create(title, author, url)
+    createBlog(title, author, url)
       .then(returnedBlog => {
         addBlogFormRef.current.toggleVisibility()
         setBlogs(blogs.concat(returnedBlog))

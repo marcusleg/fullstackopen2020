@@ -50,7 +50,7 @@ const App = () => {
       <Error message={errorMessage} />
       <Login user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} />
       <Toggable buttonLabel="new blog" ref={addBlogFormRef}>
-        <AddBlogForm blogs={blogs} setBlogs={setBlogs} setNotificationMessage={setNotificationMessage} setErrorMessage={setErrorMessage} addBlogFormRef={addBlogFormRef} />
+        <AddBlogForm blogs={blogs} setBlogs={setBlogs} createBlog={blogService.create} setNotificationMessage={setNotificationMessage} setErrorMessage={setErrorMessage} addBlogFormRef={addBlogFormRef} />
       </Toggable>
       <h2>blogs</h2>
       {blogs.map(blog =>
