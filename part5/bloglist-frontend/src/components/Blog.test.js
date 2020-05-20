@@ -3,19 +3,19 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
-test('renders basic content at first', () => {
-  const blog = {
-    user: {
-      name: 'Henry Ford',
-    },
-    likes: 13,
-    author: 'Bob Ross',
-    title: 'The Joy of Painting',
-    url: 'http://example.org',
-  }
+const exampleBlog = {
+  user: {
+    name: 'Henry Ford',
+  },
+  likes: 13,
+  author: 'Bob Ross',
+  title: 'The Joy of Painting',
+  url: 'http://example.org',
+}
 
+test('renders basic content at first', () => {
   const component = render(
-    <Blog blog={blog} />
+    <Blog blog={exampleBlog} />
   )
 
   expect(component.container).toHaveTextContent(
@@ -33,18 +33,8 @@ test('renders basic content at first', () => {
 })
 
 test('renders detailed content when "show" button is clicked', () => {
-  const blog = {
-    user: {
-      name: 'Henry Ford',
-    },
-    likes: 13,
-    author: 'Bob Ross',
-    title: 'The Joy of Painting',
-    url: 'http://example.org',
-  }
-
   const component = render(
-    <Blog blog={blog} />
+    <Blog blog={exampleBlog} />
   )
 
   const button = component.getByText('view')
@@ -62,4 +52,25 @@ test('renders detailed content when "show" button is clicked', () => {
   expect(component.container).toHaveTextContent(
     'user Henry Ford'
   )
+})
+
+test('clicking the like button calls like handler', () => {
+  const mockUpdate = jest.fn()
+  mockUpdate.mockReturnValue({
+    ...exampleBlog,
+    likes: exampleBlog.likes + 2,
+  })
+
+  const component = render(
+    <Blog blog={exampleBlog} updateBlog={mockUpdate} />
+  )
+
+  const viewButton = component.getByText('view')
+  fireEvent.click(viewButton)
+
+  const likeButton = component.getByText('like')
+  fireEvent.click(likeButton)
+  fireEvent.click(likeButton)
+
+  expect(mockUpdate.mock.calls).toHaveLength(2)
 })
