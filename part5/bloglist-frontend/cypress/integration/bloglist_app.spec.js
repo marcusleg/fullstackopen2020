@@ -38,7 +38,6 @@ describe('Bloglist app', function () {
   describe('When logged in', function () {
     beforeEach(function () {
       cy.login({ username: 'marcus', password: 'admin123' })
-      cy.visit('http://localhost:3000')
     })
 
     it('a new blog can be created', function () {
@@ -49,6 +48,24 @@ describe('Bloglist app', function () {
       cy.get('#submit-button').click()
 
       cy.get('html').should('contain', 'New Blog added')
+    })
+
+    describe('and a blog was created', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'The Joy of Painting',
+          author: 'Bob Ross',
+          url: 'http://example.org',
+        })
+      })
+
+      it('it can be liked', function () {
+        cy.contains('The Joy of Painting').as('blogEntry')
+        cy.get('@blogEntry').contains('view').click()
+        cy.get('@blogEntry').contains('likes 0')
+        cy.get('@blogEntry').contains('like').click()
+        cy.get('@blogEntry').contains('likes 1')
+      })
     })
   })
 })
