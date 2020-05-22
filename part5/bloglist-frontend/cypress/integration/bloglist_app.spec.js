@@ -66,6 +66,14 @@ describe('Bloglist app', function () {
         cy.get('@blogEntry').contains('like').click()
         cy.get('@blogEntry').contains('likes 1')
       })
+
+      it('it can be deleted', function () {
+        cy.contains('The Joy of Painting').as('blogEntry')
+        cy.get('@blogEntry').contains('view').click()
+        cy.get('@blogEntry').contains('remove').click()
+
+        cy.get('html').should('not.contain', 'The Joy of Painting')
+      })
     })
   })
 })
