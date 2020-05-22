@@ -34,4 +34,21 @@ describe('Bloglist app', function () {
       cy.get('html').should('contain', 'wrong username or password')
     })
   })
+
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.login({ username: 'marcus', password: 'admin123' })
+      cy.visit('http://localhost:3000')
+    })
+
+    it('a new blog can be created', function () {
+      cy.contains('new blog').click()
+      cy.get('#title').type('The Joy of Painting')
+      cy.get('#author').type('Bob Ross')
+      cy.get('#url').type('http://example.org')
+      cy.get('#submit-button').click()
+
+      cy.get('html').should('contain', 'New Blog added')
+    })
+  })
 })

@@ -31,6 +31,7 @@ const AddBlogForm = ({ blogs, setBlogs, createBlog, setNotificationMessage, setE
       <form onSubmit={handleSubmit}>
         Title:
         <input type="text"
+          id="title"
           value={title}
           name="Title"
           onChange={({ target }) => setTitle(target.value)}
@@ -38,6 +39,7 @@ const AddBlogForm = ({ blogs, setBlogs, createBlog, setNotificationMessage, setE
         <br />
         Author:
         <input type="text"
+          id="author"
           value={author}
           name="Author"
           onChange={({ target }) => setAuthor(target.value)}
@@ -45,12 +47,13 @@ const AddBlogForm = ({ blogs, setBlogs, createBlog, setNotificationMessage, setE
         <br />
         URL:
         <input type="text"
+          id="url"
           value={url}
           name="URL"
           onChange={({ target }) => setUrl(target.value)}
         />
         <br />
-        <button type="submit">add</button>
+        <button id="submit-button" type="submit">add</button>
       </form>
     </>
   )
