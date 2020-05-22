@@ -7,6 +7,7 @@ List of node packages used throughout the exercises.
 * [axios](https://www.npmjs.com/package/axios) for making HTTP requets
 * [bcrypt](https://github.com/kelektiv/node.bcrypt.js) for generating password hashes
 * [config](https://github.com/lorenwest/node-config)
+* [Cypress](https://www.cypress.io/) for end-to-end testing
 * [cors](https://expressjs.com/en/resources/middleware/cors.html) middleware for Express
 * [dotenv](https://github.com/motdotla/dotenv) for loading environment variables from `.env` file
 * [ESlint](https://eslint.org/) linter
