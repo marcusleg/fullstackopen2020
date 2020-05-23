@@ -50,6 +50,22 @@ describe('Bloglist app', function () {
       cy.get('html').should('contain', 'New Blog added')
     })
 
+    it('blogs are sorted by likes', function () {
+      cy.createBlog({ title: 'aaa', author: 'ddd', url: "http://example.com" })
+      cy.createBlog({ title: 'bbb', author: 'eee', url: "http://example.com" })
+      cy.createBlog({ title: 'ccc', author: 'fff', url: "http://example.com" })
+      cy.likeBlog({ title: 'bbb', author: 'eee', clicks: 12})
+      cy.likeBlog({ title: 'aaa', author: 'ddd', clicks: 2})
+
+      cy.visit('http://localhost:3000')
+
+      cy.get('.blog').then(function (blogs) {
+        cy.wrap(blogs[0]).contains('bbb')
+        cy.wrap(blogs[1]).contains('aaa')
+        cy.wrap(blogs[2]).contains('ccc')
+      })
+    })
+
     describe('and a blog was created', function () {
       beforeEach(function () {
         cy.createBlog({

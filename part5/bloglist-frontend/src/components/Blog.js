@@ -35,7 +35,7 @@ const Blog = ({ blog, blogs, setBlogs, updateBlog, removeBlog }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div className="blog" style={blogStyle}>
       {blog.title} by {blog.author}
       {
         expanded ?
