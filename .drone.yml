@@ -1,0 +1,16 @@
+kind: pipeline
+type: kubernetes
+name: part4
+
+steps:
+- name: npm-test
+  image: docker.io/node:14
+  commands:
+  - cd part4/bloglist
+  - npm ci
+  - npm test
+  environment:
+    PORT: 3001
+    TEST_MONGODB_URI:
+      from_secret: bloglist_mongodb_uri
+    JWT_SECRET: thisdoesnothavetobeverysecret
