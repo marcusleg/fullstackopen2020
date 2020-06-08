@@ -20,4 +20,6 @@ List of node packages used throughout the exercises.
 * [mongoose-unique-validator](https://github.com/blakehaswell/mongoose-unique-validator) pre-save validation for unique fields
 * [morgan](https://github.com/expressjs/morgan) HTTP request logger middleware
 * [nodemon](https://nodemon.io/) for hot reloading during development
+* [Redux](https://redux.js.org/) for state management
+* [Redux Thunk](https://github.com/reduxjs/redux-thunk) for asynchronous action dispatching
 * [supertest](https://github.com/visionmedia/supertest) integration testing
