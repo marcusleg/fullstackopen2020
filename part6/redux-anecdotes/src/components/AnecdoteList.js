@@ -10,9 +10,7 @@ const AnecdoteList = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    anecdoteService.getAll().then(anecdotes => {
-      dispatch(initializeAnecdotes(anecdotes))
-    })
+    dispatch(initializeAnecdotes(anecdotes))
   }, [dispatch])
 
   const vote = (id, content) => {
