@@ -1,29 +1,23 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { deleteBlog, likeBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, blogs, setBlogs, updateBlog, removeBlog }) => {
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch()
+
   const [expanded, setExpanded] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
 
   const toggleExpanded = () => setExpanded(!expanded)
 
   const handleLike = async () => {
-    const updatedBlog = await updateBlog(blog.id, {
-      user: blog.user.id,
-      likes: likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-    })
-
-    setLikes(updatedBlog.likes)
+    dispatch(likeBlog(blog))
   }
 
   const handleRemove = async () => {
     if (!window.confirm(`Do you really want to remove ${blog.title} by ${blog.author}`)) {
       return
     }
-    setBlogs(blogs.filter(value => value.id !== blog.id))
-    await removeBlog(blog.id)
+    dispatch(deleteBlog(blog.id))
   }
 
   const blogStyle = {
@@ -42,7 +36,7 @@ const Blog = ({ blog, blogs, setBlogs, updateBlog, removeBlog }) => {
           <>
             <button onClick={toggleExpanded}>hide</button><br />
             <a href={blog.url}>{blog.url}</a><br />
-            likes {likes}<button onClick={handleLike}>like</button><br />
+            likes {blog.likes}<button onClick={handleLike}>like</button><br />
             user {blog.user.name}<br />
             <button onClick={handleRemove}>remove</button>
           </>

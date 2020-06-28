@@ -14,7 +14,6 @@ const App = () => {
 
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -53,11 +52,11 @@ const App = () => {
       <Error message={errorMessage} />
       <Login user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} />
       <Toggable buttonLabel="new blog" ref={addBlogFormRef}>
-        <AddBlogForm blogs={blogs} setBlogs={setBlogs} setNotificationMessage={setNotificationMessage} setErrorMessage={setErrorMessage} addBlogFormRef={addBlogFormRef} />
+        <AddBlogForm etNotificationMessage={setNotificationMessage} />
       </Toggable>
       <h2>blogs</h2>
       {sortedBlogs.map(blog =>
-        <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} updateBlog={blogService.update} removeBlog={blogService.remove} />
+        <Blog key={blog.id} blog={blog} />
       )}
     </div>
   )

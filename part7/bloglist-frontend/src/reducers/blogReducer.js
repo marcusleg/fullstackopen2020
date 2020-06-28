@@ -6,6 +6,11 @@ const reducer = (state = [], action) => {
       return action.data
     case 'CREATE':
       return [...state, action.data]
+    case 'DELETE':
+      return state.filter(blog => blog.id !== action.data)
+    case 'LIKE':
+      const liked = action.data
+      return state.map(blog => blog.id === liked.id ? liked : blog)
     default:
       return state
   }
@@ -21,6 +26,33 @@ export const createBlog = (title, author, url) => {
         })
       })
       .catch(error => console.log(error))
+  }
+}
+
+export const deleteBlog = (id) => {
+  return dispatch => {
+    blogService.remove(id)
+    .then(() => {
+      dispatch({
+        type: 'DELETE',
+        data: id,
+      })
+    })
+    .catch(error => console.log(error))
+  }
+}
+
+export const likeBlog = (blog) => {
+  return async dispatch => {
+    const likedBlog = {
+      ...blog,
+      likes: blog.likes + 1,
+    }
+    const data = await blogService.update(blog.id, likedBlog)
+    dispatch({
+      type: 'LIKE',
+      data,
+    })
   }
 }
 
