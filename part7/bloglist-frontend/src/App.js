@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import AddBlogForm from './components/AddBlogForm'
 import Blog from './components/Blog'
 import Error from './components/Error'
@@ -6,8 +7,11 @@ import Login from './components/Login'
 import Notification from './components/Notification'
 import Toggable from './components/Toggable'
 import blogService from './services/blogs'
+import { initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
+  const dispatch = useDispatch()
+
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
@@ -18,11 +22,8 @@ const App = () => {
   const addBlogFormRef = React.createRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs => {
-      const sortedBlogs = blogs.sort((a, b) => a.likes < b.likes)
-      setBlogs(sortedBlogs)
-    })
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -32,6 +33,8 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const sortedBlogs = useSelector(state => state.blogs.sort((a, b) => a.likes < b.likes))
 
   if (user === null) {
     return (
@@ -53,7 +56,7 @@ const App = () => {
         <AddBlogForm blogs={blogs} setBlogs={setBlogs} createBlog={blogService.create} setNotificationMessage={setNotificationMessage} setErrorMessage={setErrorMessage} addBlogFormRef={addBlogFormRef} />
       </Toggable>
       <h2>blogs</h2>
-      {blogs.map(blog =>
+      {sortedBlogs.map(blog =>
         <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} updateBlog={blogService.update} removeBlog={blogService.remove} />
       )}
     </div>
