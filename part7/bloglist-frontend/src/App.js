@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import AddBlogForm from './components/AddBlogForm'
-import Blog from './components/Blog'
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom"
+import Blogs from './components/Blogs'
 import Error from './components/Error'
 import Login from './components/Login'
 import Notification from './components/Notification'
-import Toggable from './components/Toggable'
+import Users from './components/Users'
 import blogService from './services/blogs'
-import { initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const dispatch = useDispatch()
-
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-
-  const addBlogFormRef = React.createRef()
-
-  useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -32,8 +22,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  const sortedBlogs = useSelector(state => state.blogs.sort((a, b) => a.likes < b.likes))
 
   if (user === null) {
     return (
@@ -47,18 +35,19 @@ const App = () => {
   }
 
   return (
-    <div>
+    <BrowserRouter>
       <Notification message={notificationMessage} />
       <Error message={errorMessage} />
       <Login user={user} setUser={setUser} username={username} setUsername={setUsername} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} />
-      <Toggable buttonLabel="new blog" ref={addBlogFormRef}>
-        <AddBlogForm etNotificationMessage={setNotificationMessage} />
-      </Toggable>
-      <h2>blogs</h2>
-      {sortedBlogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>
+      <Switch>
+        <Route path="/users">
+          <Users setNotificationMessage={setNotificationMessage} />
+        </Route>
+        <Route path="/">
+          <Blogs />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   )
 }
 
