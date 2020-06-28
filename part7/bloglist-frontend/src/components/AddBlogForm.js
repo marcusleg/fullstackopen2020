@@ -1,25 +1,18 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
 
-const AddBlogForm = ({ blogs, setBlogs, createBlog, setNotificationMessage, setErrorMessage, addBlogFormRef }) => {
+const AddBlogForm = ({ blogs, setBlogs, setNotificationMessage, setErrorMessage, addBlogFormRef }) => {
+  const dispatch = useDispatch()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    createBlog(title, author, url)
-      .then(returnedBlog => {
-        addBlogFormRef.current.toggleVisibility()
-        setBlogs(blogs.concat(returnedBlog))
-        setNotificationMessage(`New Blog added: ${returnedBlog.title} by ${returnedBlog.author}`)
-        setTimeout(() => setNotificationMessage(null), 5000)
-      })
-      .catch(error => {
-        setErrorMessage(`Unable to add blog (${error.toString()})`)
-        setTimeout(() => setErrorMessage(null), 5000)
-      })
-
+    dispatch(createBlog(title, author, url))
+    setNotificationMessage(`New Blog added: ${title} by ${author}`)
+    setTimeout(() => setNotificationMessage(null), 5000)
     setTitle('')
     setAuthor('')
     setUrl('')
