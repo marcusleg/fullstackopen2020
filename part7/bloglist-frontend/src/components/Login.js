@@ -1,19 +1,15 @@
 import React from 'react'
-import blogsService from '../services/blogs'
-import loginService from '../services/login'
+import { useDispatch, useSelector } from 'react-redux'
+import { login, logout } from '../reducers/loginReducer'
 
+const Login = ({ username, setUsername, password, setPassword, setErrorMessage }) => {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.login)
 
-const Login = ({ user, setUser, username, setUsername, password, setPassword, setErrorMessage }) => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({
-        username, password,
-      })
-
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
-      blogsService.setToken(user.token)
-      setUser(user)
+      dispatch(login(username, password))
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -23,9 +19,7 @@ const Login = ({ user, setUser, username, setUsername, password, setPassword, se
   }
 
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedUser')
-    blogsService.setToken(null)
-    setUser(null)
+    dispatch(logout())
   }
 
   if (user !== null) {

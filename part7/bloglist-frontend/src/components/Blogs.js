@@ -18,7 +18,7 @@ const Blogs = ({ setNotificationMessage }) => {
   return (
     <>
       <Toggable buttonLabel="new blog" ref={addBlogFormRef}>
-        <AddBlogForm etNotificationMessage={setNotificationMessage} />
+        <AddBlogForm setNotificationMessage={setNotificationMessage} />
       </Toggable>
       <h2>blogs</h2>
       {sortedBlogs.map(blog =>
