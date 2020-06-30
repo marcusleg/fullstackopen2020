@@ -4,7 +4,7 @@ import Blogs from './components/Blogs'
 import Error from './components/Error'
 import Login from './components/Login'
 import Notification from './components/Notification'
-import Users from './components/Users'
+import UserContainer from './components/UserContainer'
 import { restoreLoginFromLocalStorage } from './reducers/loginReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -39,7 +39,7 @@ const App = () => {
       <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} />
       <Switch>
         <Route path="/users">
-          <Users setNotificationMessage={setNotificationMessage} />
+          <UserContainer />
         </Route>
         <Route path="/">
           <Blogs setNotificationMessage={setNotificationMessage} />
