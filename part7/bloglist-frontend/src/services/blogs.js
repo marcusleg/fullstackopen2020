@@ -12,6 +12,15 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const comment = async (id, comment) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const response = await axios.post(`${baseUrl}/${id}/comments`, { comment }, config)
+  return response.data
+}
+
 const create = async (title, author, url) => {
   const config = {
     headers: { Authorization: token },
@@ -47,6 +56,7 @@ const remove = async (id) => {
 
 export default {
   getAll,
+  comment,
   create,
   update,
   remove,

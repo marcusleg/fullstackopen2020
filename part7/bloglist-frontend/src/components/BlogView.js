@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { deleteBlog, likeBlog } from '../reducers/blogReducer'
+import { deleteBlog, likeBlog, commentBlog } from '../reducers/blogReducer'
 
 const BlogDetail = ({ blog }) => {
   const dispatch = useDispatch()
+  const [comment, setComment] = useState()
 
   const handleLike = async () => {
     dispatch(likeBlog(blog))
@@ -16,6 +17,12 @@ const BlogDetail = ({ blog }) => {
     dispatch(deleteBlog(blog.id))
   }
 
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    dispatch(commentBlog(blog.id, comment))
+    setComment('')
+  }
+
   if (!blog) return null
 
   return (
@@ -26,9 +33,17 @@ const BlogDetail = ({ blog }) => {
             user {blog.user.name}<br />
       <button onClick={handleRemove}>remove</button>
       <h4>comments</h4>
+      <form onSubmit={handleSubmit}>
+        <input type="text"
+          id="comment"
+          value={comment}
+          onChange={({ target }) => setComment(target.value)}
+        />
+        <button type="submit">add comment</button>
+      </form>
       <ul>
-        {blog.comments.map(comment => (
-          <li>{comment}</li>
+        {blog.comments.map((comment, index) => (
+          <li key={index}>{comment}</li>
         ))}
       </ul>
     </>

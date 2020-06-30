@@ -4,6 +4,9 @@ const reducer = (state = [], action) => {
   switch (action.type) {
     case 'INIT':
       return action.data
+    case 'COMMENT':
+      const commented = action.data
+      return state.map(blog => blog.id === commented.id ? commented : blog)
     case 'CREATE':
       return [...state, action.data]
     case 'DELETE':
@@ -13,6 +16,19 @@ const reducer = (state = [], action) => {
       return state.map(blog => blog.id === liked.id ? liked : blog)
     default:
       return state
+  }
+}
+
+export const commentBlog = (id, comment) => {
+  return dispatch =>{
+    blogService.comment(id, comment)
+      .then(data => {
+        dispatch({
+          type: 'COMMENT',
+          data,
+        })
+      })
+      .catch(error => console.log(error))
   }
 }
 
