@@ -1,24 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
+import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
 
 const BlogList = ({ blogs }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
   return (
     <>
-      <h2>blogs</h2>
+      <Typography variant="h3">blogs</Typography>
+      <List dense>
       {blogs.map(blog =>
-        <div key={blog.id} className="blog" style={blogStyle}>
-          <Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link>
-        </div>
-      )
-      }
+        <ListItem button component={Link} to={`/blogs/${blog.id}`}>
+          <ListItemIcon>
+            <ChromeReaderModeIcon />
+          </ListItemIcon>
+          <ListItemText primary={`${blog.title} by ${blog.author}`} />
+        </ListItem>
+        )}
+      </List>
     </>
   )
 }

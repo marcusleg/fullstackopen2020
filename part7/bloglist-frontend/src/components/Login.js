@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Button } from '@material-ui/core'
 import { login, logout } from '../reducers/loginReducer'
 
 const Login = ({ username, setUsername, password, setPassword, setErrorMessage }) => {
@@ -26,7 +27,7 @@ const Login = ({ username, setUsername, password, setPassword, setErrorMessage }
     return (
       <>
         {user.username} logged in
-        <button onClick={handleLogout}>logout</button>
+        <Button onClick={handleLogout} variant="contained" size="small">logout</Button>
       </>
     )
   }
@@ -53,7 +54,7 @@ const Login = ({ username, setUsername, password, setPassword, setErrorMessage }
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button id="login-button" type="submit">login</button>
+      <Button id="login-button" type="submit" variant="contained" size="small">login</Button>
     </form>
   )
 }

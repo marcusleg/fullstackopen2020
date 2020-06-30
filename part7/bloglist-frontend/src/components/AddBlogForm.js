@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Button, TextField, Typography } from '@material-ui/core'
 import { createBlog } from '../reducers/blogReducer'
 
 const AddBlogForm = ({ setNotificationMessage }) => {
@@ -20,33 +21,36 @@ const AddBlogForm = ({ setNotificationMessage }) => {
 
   return (
     <>
-      <h2>Add new blog</h2>
+      <Typography variant="h3">Add new blog</Typography>
       <form onSubmit={handleSubmit}>
-        Title:
-        <input type="text"
+        <TextField type="text"
+          required
           id="title"
           value={title}
-          name="Title"
+          label="Title"
           onChange={({ target }) => setTitle(target.value)}
+          variant="outlined"
         />
         <br />
-        Author:
-        <input type="text"
+        <TextField type="text"
+          required
           id="author"
           value={author}
-          name="Author"
+          label="Author"
           onChange={({ target }) => setAuthor(target.value)}
+          variant="outlined"
         />
         <br />
-        URL:
-        <input type="text"
+        <TextField type="text"
+          required
           id="url"
           value={url}
-          name="URL"
+          label="URL"
           onChange={({ target }) => setUrl(target.value)}
+          variant="outlined"
         />
         <br />
-        <button id="submit-button" type="submit">add</button>
+        <Button id="submit-button" type="submit" variant="contained" color="primary">add</Button>
       </form>
     </>
   )
