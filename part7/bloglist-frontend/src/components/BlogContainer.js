@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import AddBlogForm from './AddBlogForm'
-import Blog from './Blog'
+import BlogList from './BlogList'
 import BlogView from './BlogView'
 import Toggable from './Toggable'
 import { initializeBlogs } from '../reducers/blogReducer'
 
-const Blogs = ({ setNotificationMessage }) => {
+const BlogContainer = ({ setNotificationMessage }) => {
   const dispatch = useDispatch()
 
   const addBlogFormRef = React.createRef()
@@ -31,14 +31,10 @@ const Blogs = ({ setNotificationMessage }) => {
         <Toggable buttonLabel="new blog" ref={addBlogFormRef}>
           <AddBlogForm setNotificationMessage={setNotificationMessage} />
         </Toggable>
-        <h2>blogs</h2>
-        {sortedBlogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )
-        }
+        <BlogList blogs={sortedBlogs} />
       </Route>
     </Switch>
   )
 }
 
-export default Blogs
+export default BlogContainer

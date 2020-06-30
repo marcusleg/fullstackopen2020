@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom"
-import Blogs from './components/Blogs'
+import BlogContainer from './components/BlogContainer'
 import Error from './components/Error'
 import Login from './components/Login'
 import Notification from './components/Notification'
@@ -42,7 +42,7 @@ const App = () => {
           <UserContainer />
         </Route>
         <Route path="/">
-          <Blogs setNotificationMessage={setNotificationMessage} />
+          <BlogContainer setNotificationMessage={setNotificationMessage} />
         </Route>
       </Switch>
     </BrowserRouter>
