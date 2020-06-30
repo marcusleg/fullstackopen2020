@@ -25,6 +25,12 @@ const BlogDetail = ({ blog }) => {
             likes {blog.likes}<button onClick={handleLike}>like</button><br />
             user {blog.user.name}<br />
       <button onClick={handleRemove}>remove</button>
+      <h4>comments</h4>
+      <ul>
+        {blog.comments.map(comment => (
+          <li>{comment}</li>
+        ))}
+      </ul>
     </>
   )
 }
