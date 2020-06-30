@@ -21,6 +21,10 @@ const App = () => {
     dispatch(restoreLoginFromLocalStorage())
   }, [dispatch])
 
+  const navigationItemStyle = {
+    margin: '0 .25rem 0 .25rem'
+  }
+
   if (user === null) {
     return (
       <>
@@ -36,7 +40,18 @@ const App = () => {
     <BrowserRouter>
       <Notification message={notificationMessage} />
       <Error message={errorMessage} />
-      <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} />
+      <div style={{ backgroundColor: '#cecece', padding: '0.1rem' }}>
+        <span style={navigationItemStyle}>
+          <Link to="/">blogs</Link>
+        </span>
+        <span style={navigationItemStyle}>
+          <Link to="/users">users</Link>
+        </span>
+        <span style={navigationItemStyle}>
+          <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} />
+        </span>
+      </div>
+
       <Switch>
         <Route path="/users">
           <UserContainer />

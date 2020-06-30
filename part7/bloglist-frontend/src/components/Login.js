@@ -24,10 +24,10 @@ const Login = ({ username, setUsername, password, setPassword, setErrorMessage }
 
   if (user !== null) {
     return (
-      <p>
+      <>
         {user.username} logged in
         <button onClick={handleLogout}>logout</button>
-      </p>
+      </>
     )
   }
 
